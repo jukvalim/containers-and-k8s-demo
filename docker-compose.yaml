@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+  web:
+    build: .
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+    - REDIS_HOST=redis
+    depends_on:
+      - redis
+  redis:
+    image: redis:6.0.6-alpine
+    restart: unless-stopped
+  db:
+    image: postgis/postgis:9.5-3.0-alpine
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:7432:5432"
+    environment:
+      - POSTGRES_DB=arbobase
+      - POSTGRES_USER=arbouser
+      - POSTGRES_PASSWORD=arbopass
+
